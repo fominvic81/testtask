@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('articles', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('editor_id')->constrained();
             $table->text('title');
             $table->string('image');
-            $table->mediumText('text');
+            $table->mediumText('text')->fulltext();
             $table->boolean('is_active');
             $table->timestamps();
         });

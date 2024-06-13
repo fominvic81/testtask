@@ -21,6 +21,7 @@ class EditorFactory extends Factory
         return [
             'firstname' => fake()->firstName(),
             'lastname' => fake()->lastName(),
+            'email' => fake()->email(),
             'password' => Hash::make('password'),
             'is_admin' => false,
         ];

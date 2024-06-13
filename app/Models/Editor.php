@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Editor extends Authenticatable
 {
@@ -19,6 +20,7 @@ class Editor extends Authenticatable
     protected $fillable = [
         'firstname',
         'lastname',
+        'email',
         'password',
     ];
 
@@ -41,4 +43,9 @@ class Editor extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function articles(): HasMany
+    {
+        return $this->hasMany(Article::class);
+    }
 }

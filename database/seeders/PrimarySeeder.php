@@ -17,6 +17,7 @@ class PrimarySeeder extends Seeder
         Editor::factory()->admin()->create([
             'firstname' => 'Редактор',
             'lastname' => 'Головний',
+            'email' => 'admin@app.com',
             'password' => Hash::make('password'),
         ]);
     }
