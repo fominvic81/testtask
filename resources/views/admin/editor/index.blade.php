@@ -1,6 +1,6 @@
 <x-layouts.admin title="Редактори">
-    <table class="w-full border-2 border-gray-500">
-        <tr class="odd:bg-gray-300">
+    <table class="w-full max-w-full border-2 border-gray-400 whitespace-nowrap table-fixed my-2">
+        <tr class="bg-gray-300 hover:brightness-90 text-left">
             <th class="text-left">Фамілія</th>
             <th class="text-left">Ім'я</th>
             <th class="text-left">Email</th>
@@ -9,7 +9,7 @@
             <th class="text-left">Видалити</th>
         </tr>
         @foreach ($users as $user)
-            <tr class="even:bg-gray-400 odd:bg-gray-300 hover:brightness-90 border-t-2 border-gray-500">
+            <tr class="even:bg-gray-50 odd:bg-gray-200 hover:brightness-90 border-t-2 border-gray-400">
                 <td>{{ $user->lastname }}</td>
                 <td>{{ $user->firstname }}</td>
                 <td>{{ $user->email }}</td>

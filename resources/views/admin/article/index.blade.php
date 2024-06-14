@@ -1,7 +1,6 @@
 <x-layouts.admin title="{{ $title }}">
-    {{-- @dump($articles) --}}
-    <table class="w-full max-w-full border-2 border-gray-500 whitespace-nowrap table-fixed my-2">
-        <tr class="even:bg-gray-400 odd:bg-gray-300 hover:brightness-90 text-left">
+    <table class="w-full max-w-full border-2 border-gray-400 whitespace-nowrap table-fixed my-2">
+        <tr class="bg-gray-300 hover:brightness-90 text-left">
             @if ($showAuthor)
             <th>Автор</th>
             @endif
@@ -12,7 +11,7 @@
             <th>Видалити</th>
         </tr>
         @foreach ($articles as $article)
-            <tr class="even:bg-gray-400 odd:bg-gray-300 hover:brightness-90 border-t-2 border-gray-500">
+            <tr class="even:bg-gray-50 odd:bg-gray-200 hover:brightness-90 border-t-2 border-gray-400">
                 @if ($showAuthor)
                 <td class="text-ellipsis overflow-hidden"><a class="underline text-blue-600 hover:text-blue-400" href="{{ route('editors.edit', $article->editor) }}">{{ $article->editor->lastname.' '.$article->editor->firstname }}</a></td>
                 @endif
