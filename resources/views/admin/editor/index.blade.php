@@ -1,5 +1,5 @@
 <x-layouts.admin title="Редактори">
-    <table class="w-full border-2 border-gray-400">
+    <table class="w-full border-2 border-gray-500">
         <tr class="odd:bg-gray-300">
             <th class="text-left">Фамілія</th>
             <th class="text-left">Ім'я</th>
@@ -9,13 +9,13 @@
             <th class="text-left">Видалити</th>
         </tr>
         @foreach ($users as $user)
-            <tr class="even:bg-gray-400 odd:bg-gray-300 hover:brightness-90">
-                <td class="py-1">{{ $user->lastname }}</td>
-                <td class="py-1">{{ $user->firstname }}</td>
-                <td class="py-1">{{ $user->email }}</td>
-                <td class="py-1">{{ $user->is_admin ? 'Так' : 'Ні' }}</td>
-                <td class="py-1"><a class="underline text-blue-600 hover:text-blue-400" href="{{ route('editors.edit', $user) }}">Редагувати</a></td>
-                <td class="py-1">
+            <tr class="even:bg-gray-400 odd:bg-gray-300 hover:brightness-90 border-t-2 border-gray-500">
+                <td>{{ $user->lastname }}</td>
+                <td>{{ $user->firstname }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->is_admin ? 'Так' : 'Ні' }}</td>
+                <td><a class="text-blue-600 hover:text-blue-400" href="{{ route('editors.edit', $user) }}">Редагувати</a></td>
+                <td>
                     <form action="{{ route('editors.destroy', $user) }}" method="POST">
                         @method('DELETE')
                         @csrf

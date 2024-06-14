@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\ArticleController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\EditorController;
+use App\Http\Controllers\Admin\ImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,4 +32,9 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('/logout', [LoginController::class, 'delete'])->name('logout');
 
     Route::resource('editors', EditorController::class)->except(['show']);
+
+    Route::get('articles/my', [ArticleController::class, 'indexMy'])->name('articles.my');
+    Route::resource('articles', ArticleController::class)->except('show');
+
+    Route::post('images', [ImageController::class, 'store'])->name('images.store');
 });
