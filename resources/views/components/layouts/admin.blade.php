@@ -3,6 +3,7 @@
 <x-layouts.layout title="{{ $title }}">
     <div class="size-full grid grid-cols-[250px_1fr]">
         <div class="bg-gray-300">
+            <a class="block w-full text-center py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('home') }}">Головна</a>
             <a class="block w-full text-center py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('editors.edit', Auth::user()) }}">Редагувати профіль</a>
             <a class="block w-full text-center py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('articles.my') }}">Мої новини</a>
             <a class="block w-full text-center py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('articles.create')}}">Створити новину</a>

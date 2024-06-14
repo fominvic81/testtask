@@ -1,8 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\Auth\LoginController;
 use App\Http\Controllers\Admin\EditorController;
 use App\Http\Controllers\Admin\ImageController;
@@ -18,8 +18,9 @@ use App\Http\Controllers\Admin\ImageController;
 |
 */
 
-Route::get('/', [HomeController::class, 'show'])->name('home');
-Route::get('/home', [HomeController::class, 'show']);
+Route::get('/', [NewsController::class, 'index'])->name('home');
+Route::get('/home', [NewsController::class, 'index']);
+Route::get('/news/{article}', [NewsController::class, 'show'])->name('news.show');
 
 Route::middleware('guest')->group(function () {
     Route::get('/admin/login', [LoginController::class, 'show'])->name('login');
