@@ -34,6 +34,7 @@
             x-on:keydown.escape="input = ''"
             x-on:keydown.backspace="!input && tags.pop()"
             x-on:click.outside="addTag()"
+            x-on:blur="addTag()"
             x-on:paste.prevent.stop="tags.push(...new Set(($event.clipboardData || window.clipboardData).getData('Text').replaceAll(/[\s,]+/g, ' ').split(' ')))"
         >
     </div>
