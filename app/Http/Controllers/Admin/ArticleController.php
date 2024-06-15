@@ -12,6 +12,44 @@ use Illuminate\Support\Facades\Auth;
 
 class ArticleController extends Controller
 {
+
+    protected function checkCollisions(array $tags, Article $article = null)
+    {
+        if ($article !== null) {
+            $collisions = Tag::query()->whereNot(fn ($query) => $query->whereBelongsTo($article))->whereIn('name', $tags)->get();
+        } else {
+            $collisions = Tag::query()->whereIn('name', $tags)->get();
+        }
+        $collisions = $collisions->map(fn ($tag) => $tag->name)->toArray();
+
+        if (count($collisions) > 0) {
+            return back()->with('collisions', $collisions)->withInput()->withErrors([
+                'tags' => 'Такі теги вже існують: '.implode(', ', $collisions),
+            ]);
+        }
+        return false;
+    }
+
+    protected function updateTags(array $createdTags, array $removedTags, Article $article)
+    {
+        $words = [];
+        if (preg_match_all('/\b([\p{L}\p{M}\p{N}]+)\b/u', $article->text, $words)) {
+            $mentionedTags = Tag::query()->whereNot(fn ($query) => $query->whereBelongsTo($article))->whereIn('name', $words[0])->get();
+            $article->mentionedTags()->sync($mentionedTags);
+        }
+        
+        $createdTags = $article->tags()->createMany(array_map(fn ($tag) => ['name' => $tag], $createdTags));
+
+        foreach ($createdTags as $tag) {
+            $mentionedBy = Article::query()->whereFullText('text', $tag->name)->get();
+            foreach ($mentionedBy as $model) {
+                $model->mentionedTags()->attach($tag);
+            }
+        }
+
+        $article->tags()->whereIn('name', $removedTags)->delete();
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -55,25 +93,19 @@ class ArticleController extends Controller
         $this->authorize('create', Article::class);
 
         $data = $request->validated();
-        
-        $collisions = Tag::query()->whereIn('name', $data['tags'])->get();
-        $collisions = $collisions->map(fn ($tag) => $tag->name)->toArray();
 
-        if (count($collisions) > 0) {
-            return back()->with('collisions', $collisions)->withInput()->withErrors([
-                'tags' => 'Такі теги вже існують: '.implode(', ', $collisions),
-            ]);
-        }
+        if ($response = $this->checkCollisions($data['tags'])) return $response;
 
         $data['is_active'] = boolval($data['is_active'] ?? false);
+        $data['text'] = e($data['text']);
 
         $article = new Article($data);
         $article->editor()->associate($request->user());
         $article->save();
 
-        $article->tags()->createMany(array_map(fn ($tag) => ['name' => $tag], $data['tags']));
+        $this->updateTags($data['tags'], [], $article);
 
-        return redirect()->route('articles.edit', $article);
+        return redirect()->route('news.show', $article);
     }
 
     /**
@@ -96,16 +128,10 @@ class ArticleController extends Controller
 
         $data = $request->validated();
         
-        $collisions = Tag::query()->whereNot(fn ($query) => $query->whereBelongsTo($article))->whereIn('name', $data['tags'])->get();
-        $collisions = $collisions->map(fn ($tag) => $tag->name)->toArray();
-
-        if (count($collisions) > 0) {
-            return back()->with('collisions', $collisions)->withInput()->withErrors([
-                'tags' => 'Такі теги вже існують: '.implode(', ', $collisions),
-            ]);
-        }
+        if ($response = $this->checkCollisions($data['tags'], $article)) return $response;
 
         $data['is_active'] = boolval($data['is_active'] ?? false);
+        $data['text'] = e($data['text']);
 
         $oldTags = $article->tags->map(fn ($tag) => $tag->name)->toArray();
         $createdTags = array_diff($data['tags'], $oldTags);
@@ -113,10 +139,10 @@ class ArticleController extends Controller
 
         $article->fill($data);
         $article->save();
-        $article->tags()->createMany(array_map(fn ($tag) => ['name' => $tag], $createdTags));
-        $article->tags()->whereIn('name', $removedTags)->delete();
 
-        return redirect()->route('articles.edit', $article);
+        $this->updateTags($createdTags, $removedTags, $article);
+
+        return redirect()->route('news.show', $article);
     }
 
     /**

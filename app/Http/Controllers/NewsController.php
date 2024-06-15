@@ -18,8 +18,17 @@ class NewsController extends Controller
 
     public function show(Article $article)
     {
+        $tags = $article->mentionedTags;
+        $text = e($article->text);
+
+        foreach ($tags as $tag) {
+            $route = route('news.show', $tag->article);
+            $text = preg_replace("/(\b$tag->name\b)((?!>)*<?)/iu", "<a href=\"$route\">$1</a>", $text);
+        }
+
         return view('news.show', [
             'article' => $article,
+            'text' => $text,
         ]);
     }
 }
