@@ -29,7 +29,7 @@ class ArticlePolicy
      */
     public function update(Editor $editor, Article $article): bool
     {
-        return $editor->is_admin || $editor->articles->contains($article);
+        return $editor->is_admin || $editor->id === $article->editor_id;
     }
 
     /**
@@ -37,6 +37,6 @@ class ArticlePolicy
      */
     public function delete(Editor $editor, Article $article): bool
     {
-        return $editor->is_admin || $editor->articles->contains($article);
+        return $editor->is_admin || $editor->id === $article->editor_id;
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NewsController extends Controller
 {
@@ -18,6 +19,7 @@ class NewsController extends Controller
 
     public function show(Article $article)
     {
+        if (!Auth::user()?->is_admin && Auth::user()?->id !== $article->editor->id && !$article->is_active) return abort(403);
         $tags = $article->mentionedTags;
         $text = e($article->text);
 
