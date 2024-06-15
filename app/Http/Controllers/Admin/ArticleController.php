@@ -151,6 +151,7 @@ class ArticleController extends Controller
     public function destroy(Article $article)
     {
         $this->authorize('delete', $article);
-        // TODO
+        $article->delete();
+        return back();
     }
 }

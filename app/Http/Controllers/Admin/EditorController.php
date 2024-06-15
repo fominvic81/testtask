@@ -90,8 +90,7 @@ class EditorController extends Controller
     public function destroy(Editor $editor)
     {
         $this->authorize('delete', $editor);
-        // TODO: add cascade
-        // $editor->delete();
+        $editor->delete();
         return back();
     }
 }

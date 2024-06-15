@@ -44,6 +44,6 @@ class EditorPolicy
      */
     public function delete(Editor $editor, Editor $model): bool
     {
-        return $editor->is_admin;
+        return $editor->is_admin && !$model->is_admin;
     }
 }
