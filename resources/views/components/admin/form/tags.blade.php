@@ -33,10 +33,10 @@
             x-on:keydown.enter.prevent="addTag()"
             x-on:keydown.escape="input = ''"
             x-on:keydown.backspace="!input && tags.pop()"
-            x-on:keydown="if ($event.key.length === 1) { $event.preventDefault(); if ($event.key.match(/^[\p{L}\p{M}\p{N}]$/u)) input += $event.key.toLowerCase() }"
+            x-on:input="$event.target.value = $event.target.value.replaceAll(/[^\p{L}\p{M}\p{N}\s]/gu, '')"
             x-on:click.outside="addTag()"
             x-on:blur="addTag()"
-            x-on:paste.prevent.stop="tags.push(...new Set(($event.clipboardData || window.clipboardData).getData('Text').replaceAll(/[\s,]+/g, ' ').split(' ')))"
+            x-on:paste.prevent.stop="tags = [...new Set([...tags, ...($event.clipboardData || window.clipboardData).getData('Text').replaceAll(/[\s,]+/g, ' ').replaceAll(/[^\p{L}\p{M}\p{N}\s]/gu, '').toLowerCase().split(' ')])]"
         >
     </div>
 </div>
