@@ -11,7 +11,7 @@ class NewsController extends Controller
     
     public function index()
     {
-        $articles = Article::query()->where('is_active', true)->latest()->paginate(15);
+        $articles = Article::query()->where('is_active', true)->latest()->paginate();
         return view('news.index', [
             'articles' => $articles,
         ]);
@@ -29,9 +29,14 @@ class NewsController extends Controller
             $text = preg_replace("/(\b$tag->name\b)((?!>)*<?)/iu", "<a href=\"$route\">$1</a>", $text);
         }
 
+        $prev = Article::where('is_active', true)->where('id', '<', $article->id)->latest()->first();
+        $next = Article::where('is_active', true)->where('id', '>', $article->id)->oldest()->first();
+
         return view('news.show', [
             'article' => $article,
             'text' => $text,
+            'prev' => $prev,
+            'next' => $next,
         ]);
     }
 }
