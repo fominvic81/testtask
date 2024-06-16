@@ -41,7 +41,7 @@ class ArticleController extends Controller
         $createdTags = $article->tags()->createMany(array_map(fn ($tag) => ['name' => $tag], $createdTags));
 
         foreach ($createdTags as $tag) {
-            $mentionedBy = Article::query()->whereFullText('text', $tag->name)->get();
+            $mentionedBy = Article::query()->where('id', '!=', $article->id)->whereFullText('text', $tag->name)->get();
             foreach ($mentionedBy as $model) {
                 $model->mentionedTags()->attach($tag);
             }
@@ -57,7 +57,7 @@ class ArticleController extends Controller
     {
         $this->authorize('viewAny', Article::class);
         $title = 'Всі новини';
-        $articles = Article::paginate(50);
+        $articles = Article::latest()->paginate(50);
         return view('admin.article.index', [
             'title' => $title,
             'articles' => $articles,
@@ -68,7 +68,7 @@ class ArticleController extends Controller
     public function indexMy(Request $request)
     {
         $title = 'Мої новини';
-        $articles = Article::query()->whereBelongsTo($request->user())->paginate(50);
+        $articles = Article::latest()->whereBelongsTo($request->user())->paginate(50);
         return view('admin.article.index', [
             'title' => $title,
             'articles' => $articles,
@@ -97,7 +97,6 @@ class ArticleController extends Controller
         if ($response = $this->checkCollisions($data['tags'])) return $response;
 
         $data['is_active'] = boolval($data['is_active'] ?? false);
-        $data['text'] = e($data['text']);
 
         $article = new Article($data);
         $article->editor()->associate($request->user());
@@ -131,7 +130,6 @@ class ArticleController extends Controller
         if ($response = $this->checkCollisions($data['tags'], $article)) return $response;
 
         $data['is_active'] = boolval($data['is_active'] ?? false);
-        $data['text'] = e($data['text']);
 
         $oldTags = $article->tags->map(fn ($tag) => $tag->name)->toArray();
         $createdTags = array_diff($data['tags'], $oldTags);

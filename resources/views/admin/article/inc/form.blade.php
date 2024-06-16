@@ -5,7 +5,7 @@
     </div>
     <x-admin.form.image name="image" image="{{ old('image') ?? $article->image ?? null }}"></x-admin.form.image>
 </div>
-<x-admin.form.textarea label="Текст" name="text" value="{{ old('text') ?? $article->text ?? '' }}"></x-admin.form.textarea>
+<x-admin.form.textarea label="Текст" name="text" :value="old('text') ?? $article->text ?? ''"></x-admin.form.textarea>
 <x-admin.form.checkbox label="Показувати в стрічці" name="is_active" checked="{{ old('is_active') ?? $article->is_active ?? true }}"></x-admin.form.checkbox>
 
 <x-admin.form.errors></x-admin.form.errors>
