@@ -20,7 +20,7 @@
                         <form action="{{ route('editors.destroy', $user) }}" method="POST" onsubmit="return prompt('Ви впевнені що хочете видалити користувача {{ $user->lastname.' '.$user->firstname }} та всі статті створені ним? Введіть &quot;Видалити&quot; щоб підтвертити')?.toLowerCase() === 'видалити'">
                             @method('DELETE')
                             @csrf
-                            <button class="text-blue-600 hover:text-blue-400 hover:underline">Видалити</button>
+                            <button class="text-blue-600 hover:text-red-400 hover:underline">Видалити</button>
                         </form>
                     @endcan
                 </td>

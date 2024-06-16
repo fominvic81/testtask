@@ -33,7 +33,7 @@
             x-on:keydown.enter.prevent="addTag()"
             x-on:keydown.escape="input = ''"
             x-on:keydown.backspace="!input && tags.pop()"
-            x-on:input="$event.target.value = $event.target.value.replaceAll(/[^\p{L}\p{M}\p{N}\s]/gu, '')"
+            x-on:input="$event.target.value = $event.target.value.replaceAll(/[^\p{L}\p{M}\p{N}\s]/gu, '').toLowerCase()"
             x-on:click.outside="addTag()"
             x-on:blur="addTag()"
             x-on:paste.prevent.stop="tags = [...new Set([...tags, ...($event.clipboardData || window.clipboardData).getData('Text').replaceAll(/[\s,]+/g, ' ').replaceAll(/[^\p{L}\p{M}\p{N}\s]/gu, '').toLowerCase().split(' ')])]"

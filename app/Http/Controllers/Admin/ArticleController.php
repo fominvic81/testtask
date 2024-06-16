@@ -93,10 +93,11 @@ class ArticleController extends Controller
         $this->authorize('create', Article::class);
 
         $data = $request->validated();
+        $data['is_active'] = boolval($data['is_active'] ?? false);
+        $data['tags'] = $data['tags'] ?? [];
 
         if ($response = $this->checkCollisions($data['tags'])) return $response;
 
-        $data['is_active'] = boolval($data['is_active'] ?? false);
 
         $article = new Article($data);
         $article->editor()->associate($request->user());
@@ -126,10 +127,10 @@ class ArticleController extends Controller
         $this->authorize('update', $article);
 
         $data = $request->validated();
-        
-        if ($response = $this->checkCollisions($data['tags'], $article)) return $response;
-
         $data['is_active'] = boolval($data['is_active'] ?? false);
+        $data['tags'] = $data['tags'] ?? [];
+
+        if ($response = $this->checkCollisions($data['tags'], $article)) return $response;
 
         $oldTags = $article->tags->map(fn ($tag) => $tag->name)->toArray();
         $createdTags = array_diff($data['tags'], $oldTags);

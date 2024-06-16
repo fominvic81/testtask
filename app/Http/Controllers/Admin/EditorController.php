@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Editor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 
 class EditorController extends Controller
 {
@@ -40,10 +41,10 @@ class EditorController extends Controller
         $this->authorize('create', Editor::class);
         
         $data = $request->validate([
-            'firstname' => ['required', 'min:3', 'max:30'],
-            'lastname' => ['required', 'min:3', 'max:30'],
+            'firstname' => ['required', 'string', 'min:3', 'max:30'],
+            'lastname' => ['required', 'string', 'min:3', 'max:30'],
             'email' => ['required', 'email', 'unique:editors,email'],
-            'password' => ['required', 'min:8', 'confirmed'],
+            'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
         $editor = new Editor($data);
@@ -72,8 +73,8 @@ class EditorController extends Controller
         $this->authorize('update', $editor);
         
         $data = $request->validate([
-            'firstname' => ['required', 'min:3', 'max:30'],
-            'lastname' => ['required', 'min:3', 'max:30'],
+            'firstname' => ['required', 'string', 'min:3', 'max:30'],
+            'lastname' => ['required', 'string', 'min:3', 'max:30'],
             'email' => ['required', 'email', $request->input('email') == $editor->email ? '' : 'unique:editors,email'],
         ]);
 

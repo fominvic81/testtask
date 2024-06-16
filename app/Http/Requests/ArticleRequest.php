@@ -24,7 +24,7 @@ class ArticleRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'image' => ['required', 'string'],
-            'tags' => ['required', 'array'],
+            'tags' => ['nullable', 'array'],
             'tags.*' => ['string', 'alpha_num', 'lowercase', 'min:3', 'max:255'],
             'text' => ['required', 'string'],
             'is_active' => ['nullable', 'boolean'],

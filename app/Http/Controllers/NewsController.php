@@ -24,6 +24,7 @@ class NewsController extends Controller
         $text = e($article->text);
 
         foreach ($tags as $tag) {
+            if (!$tag->article->is_active) continue;
             $route = route('news.show', $tag->article);
             $text = preg_replace("/(\b$tag->name\b)((?!>)*<?)/iu", "<a href=\"$route\">$1</a>", $text);
         }
