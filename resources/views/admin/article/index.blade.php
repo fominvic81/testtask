@@ -23,7 +23,7 @@
                     <td>{{ $article->is_active ? 'Так' : 'Ні' }}</td>
                     <td><a class="text-blue-600 hover:text-blue-400 hover:underline" href="{{ route('articles.edit', $article) }}">Редагувати</a></td>
                     <td>
-                        <form action="{{ route('articles.destroy', $article) }}" method="POST" onsubmit="return confirm('Ви впевнені що хочете видалити новину &quot;{{ $article->title }}&quot;')">
+                        <form action="{{ route('articles.destroy', $article) }}" method="POST" onsubmit="return confirm('Ви впевнені що хочете видалити новину &quot;{{ $article->title }}&quot;?')">
                             @method('DELETE')
                             @csrf
                             <button class="text-blue-600 hover:text-red-400 hover:underline">Видалити</button>

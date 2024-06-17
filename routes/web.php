@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\Auth\PasswordController;
 use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Auth\LoginController;
@@ -32,6 +33,8 @@ Route::middleware('auth')->prefix('admin')->group(function () {
 
     Route::post('/logout', [LoginController::class, 'delete'])->name('logout');
 
+    Route::get('changepassword', [PasswordController::class, 'show'])->name('changepassword');
+    Route::put('changepassword', [PasswordController::class, 'update']);
     Route::resource('editors', EditorController::class)->except(['show']);
 
     Route::get('articles/my', [ArticleController::class, 'indexMy'])->name('articles.my');

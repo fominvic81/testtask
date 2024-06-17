@@ -11,7 +11,7 @@
                 </label>
                 <label class="flex flex-col indent-2 w-full">
                     Пароль
-                    <input class="p-1 border border-gray-300 rounded-md" name="password" type="password" placeholder="Пароль">
+                    <input class="p-1 border border-gray-300 rounded-md" autocomplete="old-password" name="password" type="password" placeholder="Пароль">
                 </label>
     
                 @foreach ($errors->all() as $error)
