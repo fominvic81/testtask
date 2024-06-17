@@ -7,7 +7,7 @@
 
                 <label class="flex flex-col indent-2 w-full">
                     Email
-                    <input class="p-1 border border-gray-300 rounded-md" name="email" type="email" placeholder="Email" value="{{ old('email') }}">
+                    <input class="p-1 border border-gray-300 rounded-md" name="email" type="email" placeholder="Email" :value="old('email')">
                 </label>
                 <label class="flex flex-col indent-2 w-full">
                     Пароль
