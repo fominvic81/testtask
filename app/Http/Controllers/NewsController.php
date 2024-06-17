@@ -26,7 +26,7 @@ class NewsController extends Controller
         foreach ($tags as $tag) {
             if (!$tag->article->is_active) continue;
             $route = route('news.show', $tag->article);
-            $text = preg_replace("/(\b$tag->name\b)((?!>)*<?)/iu", "<a href=\"$route\">$1</a>", $text);
+            $text = preg_replace("/(\b$tag->name\b)((?!>)*<?)/iu", "<a class=\"tag-link\" href=\"$route\">$1</a>", $text);
         }
 
         $prev = Article::where('is_active', true)->where('id', '<', $article->id)->latest()->first();
