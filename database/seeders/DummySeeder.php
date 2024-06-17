@@ -7,6 +7,7 @@ use App\Models\Editor;
 use App\Models\Tag;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class DummySeeder extends Seeder
@@ -16,8 +17,11 @@ class DummySeeder extends Seeder
      */
     public function run(): void
     {
+        $imagesPath = storage_path('app/public/images');
+        if (!File::isDirectory($imagesPath)) File::makeDirectory($imagesPath);
+
         Editor::factory()
-            ->has(Article::factory(5)->has(Tag::factory(5)))
+            ->has(Article::factory(20))
             ->create([
                 'firstname' => 'Редактор',
                 'lastname' => 'Тестовий',
