@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+// For alpineJs
+[x-cloak] { display: none !important; }
+
 .tag-link {
     color: rgb(37 99 235);
 }

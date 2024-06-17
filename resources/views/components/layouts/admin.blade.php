@@ -9,13 +9,13 @@
             </div>
             <a class="block w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('admin.home') }}">Головна</a>
             <div class="w-full h-[1px] bg-gray-400 my-2"></div>
-            <a class="block w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('articles.create')}}">Створити новину</a>
-            @can('create', \App\Models\Editor\Editor::class)
-            <a class="block w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('editors.create') }}">Створити Редактора</a>
-            @endcan
             <a class="block w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('articles.my') }}">Мої новини</a>
             @can('view-any', \App\Models\Article\Article::class)
             <a class="block w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('articles.index') }}">Всі новини</a>
+            @endcan
+            <a class="block w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('articles.create')}}">Створити новину</a>
+            @can('create', \App\Models\Editor\Editor::class)
+            <a class="block w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('editors.create') }}">Створити Редактора</a>
             @endcan
             @can('view-any', \App\Models\Editor\Editor::class)
             <a class="block w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all" href="{{ route('editors.index') }}">Редактори</a>

@@ -1,26 +1,30 @@
 @props(['name', 'label', 'value', 'highlighted'])
 
-{{-- TODO: fix styles when too many tags are added --}}
-<div>
+<div
+    x-data="{
+        tags: {{ json_encode(empty($value) ? [] : $value) }},
+        highlighted: {{ json_encode(empty($highlighted) ? [] : $highlighted) }},
+        input: '',
+        processInput () {
+            this.input
+                .replaceAll(/[^\p{L}\p{M}\p{N}]/gu, ' ')
+                .toLowerCase()
+                .split(' ')
+                .filter(x => x && !this.tags.includes(x))
+                .forEach(x => this.tags.push(x));
+            this.input = '';
+        },
+    }">
     <label for="{{ $name }}-id" class="block indent-2 w-full">{{ $label }}</label>
-    <div
-        class="flex p-2 w-fill h-12 bg-white border border-gray-300 rounded-md"
-        x-data="{
-            tags: {{ json_encode(empty($value) ? [] : $value) }},
-            highlighted: {{ json_encode(empty($highlighted) ? [] : $highlighted) }},
-            input: '',
-            highlight: '',
-            addTag () {
-                this.highlight = this.tags.includes(this.input) ? this.input : '';
-                if (this.input && !this.tags.includes(this.input)) {
-                    this.tags.push(this.input.toLowerCase());
-                }
-                this.input = '';
-            },
-        }"
+    <input class="p-2 w-full bg-white border border-gray-300 rounded-md outline-none" id="{{ $name }}-id" type="text" placeholder="Введіть теги" x-model="input"
+        x-on:keydown.enter.prevent="processInput()"
+        x-on:keydown.escape="input = ''"
+        x-on:click.outside="processInput()"
+        x-on:blur="processInput()"
     >
+    <div x-cloak x-show="tags.length" class="flex flex-wrap gap-2 m-2">
         <template x-for="(tag, index) in tags">
-            <div x-bind:class="`px-2 mx-1 rounded-md flex items-center ${highlight === tag ? 'bg-blue-300' : highlighted.includes(tag) ? 'bg-red-400' : 'bg-gray-200'} border border-gray-300`">
+            <div x-bind:class="`w-min px-2 rounded-md flex items-center ${highlighted.includes(tag) ? 'bg-red-400' : 'bg-gray-50'} border border-gray-300`">
                 <span x-text="tag"></span>
                 <button type="button" x-on:click="tags = tags.filter(x => x !== tag)" class="block hover:bg-red-400 rounded-sm w-4 h-4 ml-1">
                     <x-svg name="cross" class=""></x-svg>
@@ -28,15 +32,6 @@
                 <input type="hidden" x-bind:name="`{{ $name }}[${index}]`" x-bind:value="tag">
             </div>
         </template>
-        <input class="mx-1 grow outline-none" id="{{ $name }}-id" type="text" placeholder="Введіть теги" x-model="input"
-            x-on:keydown.space.prevent="addTag()"
-            x-on:keydown.enter.prevent="addTag()"
-            x-on:keydown.escape="input = ''"
-            x-on:keydown.backspace="!input && tags.pop()"
-            x-on:input="$event.target.value = $event.target.value.replaceAll(/[^\p{L}\p{M}\p{N}\s]/gu, '').toLowerCase()"
-            x-on:click.outside="addTag()"
-            x-on:blur="addTag()"
-            x-on:paste.prevent.stop="tags = [...new Set([...tags, ...($event.clipboardData || window.clipboardData).getData('Text').replaceAll(/[\s,]+/g, ' ').replaceAll(/[^\p{L}\p{M}\p{N}\s]/gu, '').toLowerCase().split(' ')])]"
-        >
     </div>
+    
 </div>
