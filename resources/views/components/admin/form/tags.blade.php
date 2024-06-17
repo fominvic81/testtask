@@ -10,8 +10,8 @@
                 .replaceAll(/[^\p{L}\p{M}\p{N}]/gu, ' ')
                 .toLowerCase()
                 .split(' ')
-                .filter(x => x && !this.tags.includes(x))
-                .forEach(x => this.tags.push(x));
+                .filter(x => x)
+                .forEach(x => !this.tags.includes(x) && this.tags.push(x));
             this.input = '';
         },
     }">
@@ -25,7 +25,7 @@
     <div x-cloak x-show="tags.length" class="flex flex-wrap gap-2 m-2">
         <template x-for="(tag, index) in tags">
             <div x-bind:class="`w-min px-2 rounded-md flex items-center ${highlighted.includes(tag) ? 'bg-red-400' : 'bg-gray-50'} border border-gray-300`">
-                <span x-text="tag"></span>
+                <span class="overflow-hidden max-w-[50vw] text-ellipsis" x-text="tag"></span>
                 <button type="button" x-on:click="tags = tags.filter(x => x !== tag)" class="block hover:bg-red-400 rounded-sm w-4 h-4 ml-1">
                     <x-svg name="cross" class=""></x-svg>
                 </button>

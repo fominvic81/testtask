@@ -2,11 +2,10 @@
     <div class="flex flex-col items-center">
         <div class="w-full max-w-4xl">
             <div class="w-full p-4 mt-1 bg-gray-50">
-                <div class="text-ellipsis whitespace-nowrap overflow-hidden">
-                    {{-- TODO: display actually previos url? --}}
-                    <a class="text-blue-500 hover:text-blue-400 hover:underline" href="{{ route('home') }}">Головна</a>
+                <div class="text-ellipsis whitespace-nowrap overflow-hidden flex gap-1">
+                    <a class="block text-ellipsis overflow-hidden max-w-[50%] text-blue-500 hover:text-blue-400 hover:underline" href="{{ $prevUrl }}">{{ $prevTitle }}</a>
                     >
-                    <span>{{ $article->title }}</span>
+                    <div class="text-ellipsis overflow-hidden max-w-[50%]">{{ $article->title }}</div>
                 </div>
                 <h1 class="pl-2 text-3xl font-bold">{{ $article->title }}</h1>
                 <div class="pl-2 text-gray-400 font-semibold">Дата: {{ $article->created_at->setTimezone(config('app.timezone_client'))->format('d.m.Y H:i') }}</div>

@@ -28,7 +28,7 @@
                 <button class="w-full indent-2 py-2 bg-inherit hover:brightness-105 transition-all text-left">Вийти</button>
             </form>
         </div>
-        <div class="bg-gray-200 p-3 overflow-hidden">
+        <div class="bg-gray-200 p-3 overflow-x-hidden">
             <h1 class="text-3xl">{{ $title }}</h1>
             {{ $slot }}
         </div>

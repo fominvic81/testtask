@@ -32,11 +32,32 @@ class NewsController extends Controller
         $prev = Article::where('is_active', true)->where('id', '<', $article->id)->latest()->first();
         $next = Article::where('is_active', true)->where('id', '>', $article->id)->oldest()->first();
 
+        $prevRoute = app('router')->getRoutes()->match(app('request')->create(url()->previous()));
+        $prevRouteName = $prevRoute->getName();
+
+        $prevUrl = route('home');
+        $prevTitle = 'Головна';
+
+        if (url()->previous() !== url()->current()) {
+            if ($prevRouteName === 'news.show') {
+                $prevUrl = route($prevRouteName, $prevRoute->parameters);
+                $prevTitle = Article::find($prevRoute->parameters['article'])->title;
+            } else if ($prevRouteName === 'articles.edit') {
+                $prevUrl = route('articles.edit', $prevRoute->parameters);
+                $prevTitle = "Редагувати \"".Article::find($prevRoute->parameters['article'])->title."\"";
+            } else if ($prevRouteName === 'articles.create') {
+                $prevUrl = route('articles.edit', $article);
+                $prevTitle = "Редагувати \"".$article->title."\"";
+            }
+        }
+
         return view('news.show', [
             'article' => $article,
             'text' => $text,
             'prev' => $prev,
             'next' => $next,
+            'prevUrl' => $prevUrl,
+            'prevTitle' => $prevTitle,
         ]);
     }
 }
