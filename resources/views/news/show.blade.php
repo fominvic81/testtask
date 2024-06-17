@@ -13,8 +13,8 @@
                 <div class="text-lg whitespace-pre-line">{!! $text !!}</div>
             </div>
             <div class="w-full grid grid-cols-2 gap-4 my-3">
-                <x-news.neighbour-card :article="$prev"></x-news.neighbour-card>
-                <x-news.neighbour-card :article="$next"></x-news.neighbour-card>
+                <x-news.neighbour-card :article="$prev" title="Попередня новина"></x-news.neighbour-card>
+                <x-news.neighbour-card :article="$next" title="Наступна новина"></x-news.neighbour-card>
             </div>
         </div>
     </div>
