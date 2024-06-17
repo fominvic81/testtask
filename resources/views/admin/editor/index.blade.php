@@ -1,7 +1,7 @@
 <x-layouts.admin title="Редактори">
     <table class="w-full max-w-full border-2 border-gray-400 whitespace-nowrap table-fixed my-2">
         <tr class="bg-gray-300 text-left">
-            <th class="text-left">Фамілія</th>
+            <th class="text-left">Прізвище</th>
             <th class="text-left">Ім'я</th>
             <th class="text-left">Email</th>
             <th class="text-left">Чи адміністратор</th>
