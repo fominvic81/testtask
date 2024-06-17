@@ -28,8 +28,8 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->prefix('admin')->group(function () {
-    // Route::get('/', [TODO, 'show']);
-    
+    Route::get('/', fn () => view('admin.index'))->name('admin.home');
+
     Route::post('/logout', [LoginController::class, 'delete'])->name('logout');
 
     Route::resource('editors', EditorController::class)->except(['show']);
