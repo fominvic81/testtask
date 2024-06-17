@@ -13,7 +13,7 @@
             addTag () {
                 this.highlight = this.tags.includes(this.input) ? this.input : '';
                 if (this.input && !this.tags.includes(this.input)) {
-                    this.tags.push(this.input);
+                    this.tags.push(this.input.toLowerCase());
                 }
                 this.input = '';
             },
