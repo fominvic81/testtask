@@ -29,8 +29,8 @@ class NewsController extends Controller
             $text = preg_replace("/(\b$tag->name\b)((?!>)*<?)/iu", "<a class=\"tag-link\" href=\"$route\">$1</a>", $text);
         }
 
-        $prev = Article::where('is_active', true)->where('id', '<', $article->id)->latest()->first();
-        $next = Article::where('is_active', true)->where('id', '>', $article->id)->oldest()->first();
+        $prev = Article::where('is_active', true)->whereNot('id', $article->id)->where('created_at', '<',  $article->created_at)->latest()->first();
+        $next = Article::where('is_active', true)->whereNot('id', $article->id)->where('created_at', '>=', $article->created_at)->oldest()->first();
 
         $prevRoute = app('router')->getRoutes()->match(app('request')->create(url()->previous()));
         $prevRouteName = $prevRoute->getName();
@@ -39,12 +39,12 @@ class NewsController extends Controller
         $prevTitle = 'Головна';
 
         if (url()->previous() !== url()->current()) {
-            if ($prevRouteName === 'news.show') {
+            if ($prevRouteName === 'news.show' && $prevArticle = Article::find($prevRoute->parameters['article'])) {
                 $prevUrl = route($prevRouteName, $prevRoute->parameters);
-                $prevTitle = Article::find($prevRoute->parameters['article'])->title;
-            } else if ($prevRouteName === 'articles.edit') {
+                $prevTitle = $prevArticle->title;
+            } else if ($prevRouteName === 'articles.edit' && $prevArticle = Article::find($prevRoute->parameters['article'])) {
                 $prevUrl = route('articles.edit', $prevRoute->parameters);
-                $prevTitle = "Редагувати \"".Article::find($prevRoute->parameters['article'])->title."\"";
+                $prevTitle = "Редагувати \"".$prevArticle->title."\"";
             } else if ($prevRouteName === 'articles.create') {
                 $prevUrl = route('articles.edit', $article);
                 $prevTitle = "Редагувати \"".$article->title."\"";

@@ -151,6 +151,10 @@ class ArticleController extends Controller
     {
         $this->authorize('delete', $article);
         $article->delete();
-        return back();
+        if (url()->previous() === route('news.show', $article)) {
+            return redirect()->route('home');
+        } else {
+            return back();
+        }
     }
 }

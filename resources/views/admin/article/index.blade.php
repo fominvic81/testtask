@@ -9,6 +9,7 @@
                 <th>Дата</th>
                 <th>Теги</th>
                 <th>Показувати</th>
+                <th>Відкрити</th>
                 <th>Редагувати</th>
                 <th>Видалити</th>
             </tr>
@@ -21,6 +22,7 @@
                     <td>{{ $article->created_at->setTimezone(config('app.timezone_client'))->format('d.m.Y H:i') }}</td>
                     <td class="text-ellipsis overflow-hidden">{{ $article->tags->map(fn ($tag) => $tag->name)->join(', ') }}</td>
                     <td>{{ $article->is_active ? 'Так' : 'Ні' }}</td>
+                    <td><a class="text-blue-600 hover:text-blue-400 hover:underline" href="{{ route('news.show', $article) }}">Відкрити</a></td>
                     <td><a class="text-blue-600 hover:text-blue-400 hover:underline" href="{{ route('articles.edit', $article) }}">Редагувати</a></td>
                     <td>
                         <form action="{{ route('articles.destroy', $article) }}" method="POST" onsubmit="return confirm('Ви впевнені що хочете видалити новину &quot;{{ $article->title }}&quot;?')">

@@ -2,6 +2,18 @@
     <div class="flex flex-col items-center">
         <div class="w-full max-w-4xl">
             <div class="w-full p-4 mt-1 bg-gray-50">
+                <div class="flex justify-end gap-3 text-lg">
+                    @can('update', $article)
+                        <a class="text-blue-600 hover:text-blue-400 hover:underline" href="{{ route('articles.edit', $article) }}">Редагувати</a>
+                    @endcan
+                    @can('delete', $article)
+                        <form action="{{ route('articles.destroy', $article) }}" method="POST" onsubmit="return confirm('Ви впевнені що хочете видалити новину &quot;{{ $article->title }}&quot;?')">
+                            @method('DELETE')
+                            @csrf
+                            <button class="text-blue-600 hover:text-red-400 hover:underline">Видалити</button>
+                        </form>
+                    @endcan
+                </div>
                 <div class="text-ellipsis whitespace-nowrap overflow-hidden flex gap-1">
                     <a class="block text-ellipsis overflow-hidden max-w-[50%] text-blue-500 hover:text-blue-400 hover:underline" href="{{ $prevUrl }}">{{ $prevTitle }}</a>
                     >
