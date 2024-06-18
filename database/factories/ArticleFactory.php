@@ -21,7 +21,9 @@ class ArticleFactory extends Factory
             'title' => fake()->words(fake()->numberBetween(2, 5), true),
             'image' => fake()->image('storage/app/public/images', 640, 320, null, false, true, 'dummy'),
             'text' => fake()->realTextBetween(500, 2000),
-            'is_active' => true,
+            'is_active' => fake()->boolean(90),
+            'created_at' => fake()->dateTimeThisYear(),
+            'updated_at' => fake()->dateTimeThisYear(),
         ];
     }
 }
