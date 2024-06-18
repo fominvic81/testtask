@@ -1,7 +1,7 @@
-
+@props(['name'])
 
 <div>
-    @foreach ($errors->all() as $error)
+    @foreach ((empty($name) ? $errors->all() : $errors->get($name)) as $error)
         <div class="text-red-500">{{ $error }}</div>
     @endforeach
 </div>
