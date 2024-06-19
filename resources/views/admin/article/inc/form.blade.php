@@ -5,6 +5,7 @@
 
         <x-admin.form.tags label="Теги" name="tags" :value="old('tags') ?? (isset($article) ? $article->tags->map(fn ($tag) => $tag->name) : [])" :highlighted="session('collisions')"></x-admin.form.tags>
 
+        <x-admin.form.errors name="collisions"></x-admin.form.errors>
         <div>
             @foreach ($errors->get('tags.*') as $tagErrors)
                 @foreach ($tagErrors as $error)

@@ -24,7 +24,7 @@ class ArticleController extends Controller
 
         if (count($collisions) > 0) {
             return back()->with('collisions', $collisions)->withInput()->withErrors([
-                'tags' => 'Такі теги вже існують: '.implode(', ', $collisions),
+                'collisions' => 'Такі теги вже існують: '.implode(', ', $collisions),
             ]);
         }
         return false;
